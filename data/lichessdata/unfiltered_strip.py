@@ -1,11 +1,14 @@
 import chess.pgn
 import pandas as pd
+import time
+
+start_time = time.time()
 
 # Initialize an empty list to store game data
 games_data = []
 
 # Open the PGN file
-with open('data/lichessdata/lichess_db_standard_rated_2013-01.pgn') as pgn_file:
+with open('test.pgn') as pgn_file:
     while True:
         game = chess.pgn.read_game(pgn_file)
         if game is None:
@@ -43,12 +46,19 @@ with open('data/lichessdata/lichess_db_standard_rated_2013-01.pgn') as pgn_file:
 
 # Convert the list to a DataFrame
 df = pd.DataFrame(games_data)
+print(games_data)
 
 # Convert Elo columns to nullable integer type (Int64)
-df['WhiteElo'] = df['WhiteElo'].astype('Int64')
-df['BlackElo'] = df['BlackElo'].astype('Int64')
+df['WhiteElo'] = df['WhiteElo'].astype('Int16')
+df['BlackElo'] = df['BlackElo'].astype('Int16')
 
 # Save the DataFrame to a CSV file
-df.to_csv('schack_1_oordning.csv', index=False)
+df.to_csv('tej', index=False)
 
 print("CSV file saved successfully!")
+
+end_time = time.time()
+
+# Calculate and print the elapsed time
+elapsed_time = end_time - start_time
+print(f"Script finished in {elapsed_time:.2f} seconds.")
